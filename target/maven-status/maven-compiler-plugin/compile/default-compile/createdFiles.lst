@@ -1,3 +1,11 @@
 com\example\demo\config\WebConfig.class
-com\example\demo\controller\InsuranceController.class
 com\example\demo\DemoApplication.class
+com\example\demo\dto\TokenRequest.class
+com\example\demo\service\TokenServiceInterface.class
+com\example\demo\controller\InsuranceController.class
+com\example\demo\api\ApiConstants.class
+com\example\demo\controller\TokenController.class
+com\example\demo\dto\TokenResponse.class
+com\example\demo\exception\GlobalExceptionHandler.class
+com\example\demo\config\OpenApiConfig.class
+com\example\demo\service\TokenService.class
