@@ -1,0 +1,14 @@
+[Unit]
+Description=Aplicacion AWS - Spring Boot
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/opt/aplicacion-aws
+ExecStart=/usr/bin/java -jar /opt/aplicacion-aws/aplicacion-aws.jar
+SuccessExitStatus=143
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
