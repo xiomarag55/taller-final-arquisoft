@@ -1,0 +1,28 @@
+@startuml
+' Diagrama de componentes del microservicio
+
+skinparam componentStyle rectangle
+
+package "Aplicación (Spring Boot)" {
+  [DemoApplication] as App
+  component "Controllers\n(TokenController, InsuranceController)" as Controllers
+  component "Service\n(TokenServiceInterface / TokenService)" as Service
+  component "DTOs\n(TokenRequest, TokenResponse)" as DTOs
+  component "Config\n(WebConfig, OpenApiConfig)" as Config
+  component "Exception Handler\n(GlobalExceptionHandler)" as ExHandler
+}
+
+database "Properties (application.properties)" as Props
+
+component "JWT Library\n(io.jsonwebtoken)" as JWTLib
+
+' Relaciones
+App --> Controllers : exposes REST endpoints (/api)
+Controllers --> Service : uses (TokenController -> TokenServiceInterface)
+Controllers --> DTOs : consumes/produces (TokenRequest/TokenResponse)
+Service --> JWTLib : creates and signs tokens
+Service --> Props : reads jwt.secret
+Controllers --> ExHandler : errors handled by
+Controllers --> Config : CORS, OpenAPI
+
+@enduml

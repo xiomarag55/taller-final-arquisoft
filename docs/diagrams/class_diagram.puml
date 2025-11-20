@@ -1,0 +1,66 @@
+@startuml
+' Diagrama de clases simplificado con las clases principales
+
+interface TokenServiceInterface {
+  + generateToken(name: String, tokenType: String, expiresInSeconds: long): String
+}
+
+class TokenService {
+  - key: SecretKey
+  + TokenService(base64Secret: String)
+  + generateToken(name: String, tokenType: String, expiresInSeconds: long): String
+}
+
+class TokenController {
+  - tokenService: TokenServiceInterface
+  + TokenController(tokenService: TokenServiceInterface)
+  + generateToken(req: TokenRequest): ResponseEntity<TokenResponse>
+}
+
+class InsuranceController {
+  + home(): Map<String,String>
+  + health(): Map<String,String>
+  + polizas(): List<Map<String,Object>>
+}
+
+class TokenRequest {
+  - name: String
+  - type: String
+  - expiresInSeconds: long
+  + getName(): String
+  + setName(name: String)
+  + getType(): String
+  + setType(type: String)
+  + getExpiresInSeconds(): long
+  + setExpiresInSeconds(expiresInSeconds: long)
+}
+
+class TokenResponse {
+  - token: String
+  - expiresAt: long
+  + getToken(): String
+  + setToken(token: String)
+  + getExpiresAt(): long
+  + setExpiresAt(expiresAt: long)
+}
+
+class GlobalExceptionHandler {
+  + handleMethodArgumentNotValid(...)
+  + handleAll(ex: Exception): ResponseEntity<Object>
+}
+
+class ApiConstants {
+  + API_BASE: String
+}
+
+' Relaciones
+TokenServiceInterface <|.. TokenService
+TokenController --> TokenServiceInterface
+TokenController --> TokenRequest
+TokenController --> TokenResponse
+TokenService ..> TokenResponse : creates (token string)
+TokenController --> GlobalExceptionHandler : handled by
+TokenController --> ApiConstants : uses API_BASE
+InsuranceController --> ApiConstants : uses API_BASE
+
+@enduml
